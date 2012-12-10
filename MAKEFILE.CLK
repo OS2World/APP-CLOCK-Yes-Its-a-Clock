@@ -1,0 +1,84 @@
+"******************************************************************************
+    Makefile for Clock (Uses PM Make, NOT nmake)
+
+    (c)Peter Koller 1995
+******************************************************************************"
+^vars()
+    {
+        ERR_LEV = "@if errorlevel 1 exit";
+    }
+
+^actions()
+    {
+        Compile =
+                @echo ¯¯¯
+                @echo ®®® Compiling $*.c ¯¯¯
+                @echo ¯¯¯
+                icc /Fo$*.obj /C /Ss /Q /O /Gi /Gf /Rn $*.c
+                $ERR_LEV
+            ;
+        Link =
+                @echo ¯¯¯
+                @echo ®®® Building $*.exe ¯¯¯
+                @echo ¯¯¯
+                ilink /out:$*.exe /nol /BASE:65536 /ALIGN:16 /optf /e /exec $*.obj cppon30.lib $*.def
+                $ERR_LEV
+                rc $*.res $*.exe
+                $ERR_LEV
+            ;
+        Resource =
+                @echo ¯¯¯
+                @echo ®®® Running resource compiler on $*.rc ¯¯¯
+                @echo ¯¯¯
+                rc -r -x $C_EVA $*.rc
+                $ERR_LEV
+            ;
+    }
+
+"********************************* Set Project root **************************"
+^projectroot(d:\program\clock);
+^files()
+    {
+        makefile;
+    }
+"********************************* Select Output *****************************"
+^out()
+    {
+        @ECHO ³
+        @ECHO ³     PM Clock
+        @ECHO ³     Make File
+        @ECHO ³
+        @ECHO ³     Copyright (c) 1995 P.Koller
+        @ECHO ³
+        @ECHO ³
+    }
+
+"***************************** String Substitutions **********************"
+^vars()
+    {
+        C_EVA = " ";
+    }
+
+"************************* Make Intermediates *******************************"
+^workpath(d:\program\clock);
+^make(clock.obj,$Compile, 0)
+    {
+        clock.c;
+        clock.h;
+    }
+^make(clock.res, $Resource, 0)
+    {
+        clock.rc;
+        clock.h;
+        clock.dlg;
+        clock.ico;
+    }
+
+"************************* Make Main *******************************"
+^make(clock.exe, $Link, 0)
+    {
+        clock.res;
+        clock.obj;
+        clock.def;
+    }
+
