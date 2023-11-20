@@ -2,7 +2,7 @@ APP-Yes-Its-a-Clock
 ===================
 Clock for OS/2, ArcaOS and eComStation
 
-![Yes, Its a Clock ScreenShot](/wiki/YesItsaClock_001.png)
+![Yes, Its a Clock ScreenShot](/Wiki/YesItsaClock_001.png)
 
 LICENSE
 ========
