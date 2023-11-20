@@ -1,4 +1,7 @@
-Clock readme
+Yes, It's a Clock
+1.01
+Peter Koller
+2023-11-20
 ============
 
 Quick info:-
@@ -70,7 +73,3 @@ provide the necessary functions for project maintenance:
     >>>>    Fast.
     >>>>    Applicable to any third party compilers, linkers, or other tools.
     >>>>    Customization using MAUDE100 dll kit.
-
-
-
-

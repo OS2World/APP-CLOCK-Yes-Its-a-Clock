@@ -1,7 +1,6 @@
-/*******************************************************************************
-    Clock
-    (c) 1995 P.Koller
-*******************************************************************************/
+/*----------------------------------------
+   CLOCK.C -- Yes It's a Clock Program
+  ----------------------------------------*/
 
 #define INCL_WIN
 #define INCL_DOS
@@ -83,8 +82,8 @@ MRESULT EXPENTRY SysMenuProc (HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         BOOL    Handled = TRUE;
         MRESULT mReturn  = 0;
         RECTL   Rectl;
-        POINTL  Pointl;
-        ULONG   temp;
+        // POINTL  Pointl;
+        // ULONG   temp;
         HPS     hps;
         HBITMAP hbm;
 
@@ -123,8 +122,8 @@ MRESULT EXPENTRY TitleBarProc (HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         
         CHARBUNDLE cb;
         FONTMETRICS Fontsz;
-        PSZ     TitleText = szTitle;
-        ULONG   temp;
+        PSZ     TitleText = (PSZ) szTitle;
+        // ULONG   temp;
         HPS     hps;
 
         switch (msg)
@@ -142,7 +141,7 @@ MRESULT EXPENTRY TitleBarProc (HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     WinQueryWindowRect(hWnd,&Rectl);
                     WinFillRect(hps, &Rectl, CLR_BLACK);
                     GpiQueryFontMetrics(hps,sizeof(FONTMETRICS),(PFONTMETRICS)&Fontsz);
-                    Pointl.x = 10;
+                    Pointl.x = 10; 
                     Pointl.y = (Rectl.yTop - Fontsz.lMaxAscender) / 2;
                     cb.lColor = CLR_GREEN;
                     cb.lBackColor = CLR_BLACK;
@@ -150,7 +149,7 @@ MRESULT EXPENTRY TitleBarProc (HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     cb.usBackMixMode = BM_OVERPAINT;
                     GpiSetAttrs(hps,PRIM_CHAR, CBB_COLOR | CBB_BACK_COLOR 
                        | CBB_MIX_MODE | CBB_BACK_MIX_MODE, 0,(PBUNDLE)&cb);
-                    GpiCharStringAt(hps, &Pointl, strlen(TitleText), TitleText);
+                    GpiCharStringAt(hps, &Pointl, (long) strlen((const char *)TitleText), TitleText);
                     WinEndPaint(hps);
                     WinReleasePS(hps);
                     break;
@@ -167,7 +166,7 @@ MRESULT EXPENTRY TitleBarProc (HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     cb.usBackMixMode = BM_OVERPAINT;
                     GpiSetAttrs(hps,PRIM_CHAR, CBB_COLOR | CBB_BACK_COLOR 
                        | CBB_MIX_MODE | CBB_BACK_MIX_MODE, 0,(PBUNDLE)&cb);
-                    GpiCharStringAt(hps, &Pointl, strlen(TitleText), TitleText);
+                    GpiCharStringAt(hps, &Pointl, strlen((const char *)TitleText), TitleText);
                     WinEndPaint(hps);
                     break;
                 default:
@@ -203,10 +202,10 @@ MRESULT EXPENTRY MainDlgProc (HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     DTSWITCH = FALSE;
                     hini = HINI_USERPROFILE;
                     Pointl.x = Pointl.y = 10;
-                    if(PrfQueryProfileSize(hini,pAppname,pKeyname,(PULONG)&temp) &&temp)
+                    if(PrfQueryProfileSize(hini,(PCSZ)pAppname,(PCSZ)pKeyname,(PULONG)&temp) &&temp)
                         { 
-                            if(temp == sizeof(POINTL)) PrfQueryProfileData(hini, pAppname,
-                                                       pKeyname, &Pointl, (PULONG)&temp);
+                            if(temp == sizeof(POINTL)) PrfQueryProfileData(hini, (PCSZ)pAppname,
+                                                       (PCSZ) pKeyname, &Pointl, (PULONG)&temp);
                         }
                     WinQueryWindowRect (hWnd, &Rectl);
 /*
@@ -233,7 +232,7 @@ MRESULT EXPENTRY MainDlgProc (HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                             DTSWITCH = !DTSWITCH;
                             if(UPDATE_HOURS)
                                 {
-                                    WinSetDlgItemText (hWnd, IDD_TIME, szHours);
+                                    WinSetDlgItemText (hWnd, IDD_TIME, (PCSZ) szHours);
                                     if(UPDATE_DATE)
                                         { 
                                             WinSetWindowText(hWndFrame,(PSZ)szTitle);
@@ -241,7 +240,7 @@ MRESULT EXPENTRY MainDlgProc (HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                                         }
                                             UPDATE_HOURS = FALSE;
                                 }
-                            WinSetDlgItemText (hWnd, IDD_SEC, szSecs);
+                            WinSetDlgItemText (hWnd, IDD_SEC, (PCSZ) szSecs);
                         }
                     Handled = FALSE;
                     break;
@@ -255,7 +254,7 @@ MRESULT EXPENTRY MainDlgProc (HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                                 Pointl.x = Pointl.y = 0;
                                 WinMapWindowPoints(hWnd, HWND_DESKTOP, &Pointl, 1);
                                 temp = sizeof(POINTL);
-                                PrfWriteProfileData(hini, pAppname, pKeyname, &Pointl, temp);
+                                PrfWriteProfileData(hini, (PCSZ) pAppname, (PCSZ) pKeyname, &Pointl, temp);
                                 WinPostMsg(hWnd, WM_QUIT, 0L, 0L);
                                 break;
                             default:
@@ -273,7 +272,7 @@ MRESULT EXPENTRY MainDlgProc (HWND hWnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
 void ClockSetDateString(PDATETIME dt)
     {
-        ULONG   x;
+        // ULONG   x;
         char    temp[10];
 
         sprintf(szSecs, "%.2d", dt->seconds);
@@ -372,4 +371,3 @@ void ClockSetDateString(PDATETIME dt)
             }
         }
     }
-

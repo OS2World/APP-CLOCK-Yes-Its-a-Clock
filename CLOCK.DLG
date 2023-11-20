@@ -1,4 +1,6 @@
-
+/*----------------------------------
+   CLOCK.DLG script file
+  ----------------------------------*/
 DLGTEMPLATE IDD_CLOCK LOADONCALL MOVEABLE DISCARDABLE
 BEGIN
     DIALOG  "Yes - It's a Clock", IDD_CLOCK, 99, 31, 84, 12, NOT 
@@ -16,4 +18,3 @@ BEGIN
                         PRESPARAMS PP_FONTNAMESIZE, "10.System Proportional"
     END
 END
-

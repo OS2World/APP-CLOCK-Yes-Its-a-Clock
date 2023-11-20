@@ -1,10 +1,10 @@
-/*******************************************************************************
-    Clock RESOURCE
-    (c) 1995 P.Koller
-*******************************************************************************/
+/*----------------------------------
+   CLOCK.RC resource script file
+  ----------------------------------*/
+
 #include <os2.h>
 #include "clock.h"
-ICON IDD_CLOCK CLOCK.ICO
+ICON IDD_CLOCK clock.ico
 
 rcinclude clock.dlg
-
+
